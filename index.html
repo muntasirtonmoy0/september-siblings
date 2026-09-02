@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>September Sibling Celebration! 🎉</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+  <!-- Stage 1: Tap to Open Gift -->
+  <section id="stage-gift" class="stage active">
+    <div class="center-content">
+      <div class="gift-box" id="gift-box" role="button" aria-label="Tap to open gift">
+        <div class="gift-lid"></div>
+        <div class="gift-body"></div>
+        <div class="ribbon-vertical"></div>
+      </div>
+      <p class="tap-hint">👉 Tap the Gift Box! 👈</p>
+    </div>
+  </section>
+
+  <!-- Stage 2: Sibling Hub (Trio Selection) -->
+  <section id="stage-select" class="stage">
+    <h2 class="section-title" id="trio-title">The September Sibling Fest! 🎉</h2>
+    <p class="subtitle">15 • 17 • 19 September</p>
+    <div class="cards-wrapper" id="trio-cards"></div>
+  </section>
+
+  <!-- Stage 3: Balloon Pop Wall -->
+  <section id="stage-balloons" class="stage">
+    <h2 class="section-title" id="balloon-header">Tap each balloon to pop! 🎈</h2>
+    <div class="balloon-container" id="balloon-container"></div>
+    <button id="next-to-cake" class="big-btn hidden">Go to Cake 🎂</button>
+  </section>
+
+  <!-- Stage 4: Cake with 3 Sibling Candles -->
+  <section id="stage-cake" class="stage">
+    <h2 class="section-title">Tap the candles to blow! 🕯️</h2>
+    <p class="candle-subtext">15 Sept (Mama) • 17 Sept (Khala) • 19 Sept (Ammu)</p>
+    <div class="cake-container">
+      <div class="candles-row" id="candles-row">
+        <div class="candle-wrapper">
+          <div class="candle" style="--c-accent: #3a86ff;"><span class="flame"></span></div>
+          <span class="candle-label">15th</span>
+        </div>
+        <div class="candle-wrapper">
+          <div class="candle" style="--c-accent: #ff006e;"><span class="flame"></span></div>
+          <span class="candle-label">17th</span>
+        </div>
+        <div class="candle-wrapper">
+          <div class="candle" style="--c-accent: #8338ec;"><span class="flame"></span></div>
+          <span class="candle-label">19th</span>
+        </div>
+      </div>
+      <div class="cake-tier tier-top"></div>
+      <div class="cake-tier tier-bottom"></div>
+    </div>
+  </section>
+
+  <!-- Stage 5: Final Heartfelt Note & Voice Player -->
+  <section id="stage-letter" class="stage">
+    <div class="letter-card">
+      <h1 id="letter-title">Happy Birthday!</h1>
+      <p id="letter-body"></p>
+      
+      <div class="audio-box">
+        <p class="audio-hint">🔊 Tap below to hear our message:</p>
+        <audio id="audio-player" controls preload="none">
+          <source id="audio-source" src="" type="audio/mpeg" />
+          Your browser does not support audio playback.
+        </audio>
+      </div>
+
+      <button id="replay-btn" class="big-btn">Choose Another Sibling 🎈</button>
+    </div>
+  </section>
+
+  <!-- Photo Modal -->
+  <div id="photo-modal" class="modal hidden">
+    <div class="modal-content">
+      <img id="modal-img" src="" alt="Family memory" />
+      <p id="modal-caption"></p>
+      <button id="close-modal" class="big-btn">Got it! ❤️</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
