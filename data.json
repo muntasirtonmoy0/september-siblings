@@ -2,8 +2,8 @@
   "trioTitle": "The September Sibling Fest! 🎉",
   "members": [
     {
-      "id": "uncle",
-      "name": "Mama (Uncle)",
+      "id": "MAMA",
+      "name": "Ripon Hasan",
       "date": "15 Sept",
       "color": "#3a86ff",
       "balloons": [
@@ -20,53 +20,53 @@
       ],
       "message": {
         "title": "Happy Birthday, Mama! (Sept 15)",
-        "body": "Starting off the sibling birthday season with the strongest pillar of our family. Thank you for your endless support and wisdom!",
+        "body": "Starting off the sibling festival with our favorite uncle! Thank you for the endless support, laughter, and wisdom you bring to the family.",
         "audioUrl": "https://actions.google.com/sounds/v1/water/gentle_stream.ogg"
       }
     },
     {
-      "id": "aunt",
-      "name": "Khala (Aunt)",
+      "id": "MAMONI",
+      "name": "Jesmine Mirja",
       "date": "17 Sept",
       "color": "#ff006e",
       "balloons": [
         {
           "color": "#ff006e",
           "image": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&auto=format&fit=crop",
-          "caption": "The heart and sweetness of the house! 🌸"
+          "caption": "The sweetness and joy of the house! 🌸"
         },
         {
           "color": "#ff70a6",
           "image": "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&auto=format&fit=crop",
-          "caption": "Forever young, caring, and full of warmth! ✨"
+          "caption": "Always caring, vibrant, and full of warmth! ✨"
         }
       ],
       "message": {
         "title": "Happy Birthday, Khalamoni! (Sept 17)",
-        "body": "Midway through the sibling festival! Your kind heart and warmth bring so much peace and joy to all of us.",
+        "body": "Midway through the September trio celebration! Your kindness, smile, and warm presence make every family gathering special.",
         "audioUrl": "https://actions.google.com/sounds/v1/water/gentle_stream.ogg"
       }
     },
     {
-      "id": "mom",
-      "name": "Ammu (Mom)",
+      "id": "Ammu",
+      "name": "Nishita Mirja",
       "date": "19 Sept",
       "color": "#8338ec",
       "balloons": [
         {
           "color": "#8338ec",
           "image": "https://images.unsplash.com/photo-1543807535-eceef0bc6599?w=600&auto=format&fit=crop",
-          "caption": "The best mother anyone could ever wish for! 💖"
+          "caption": "The best mother in the whole world! 💖"
         },
         {
           "color": "#b5179e",
           "image": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&auto=format&fit=crop",
-          "caption": "Our daily blessing and strength! 🍲"
+          "caption": "Our daily strength, guide, and blessing! 🍲"
         }
       ],
       "message": {
         "title": "Happy Birthday, Ammu! (Sept 19)",
-        "body": "The grand finale of the trio! Words cannot describe how much we love and appreciate everything you do for us every day.",
+        "body": "The grand finale of our September trio! No words can match everything you do for us every single day. We love you so much!",
         "audioUrl": "https://actions.google.com/sounds/v1/water/gentle_stream.ogg"
       }
     }
