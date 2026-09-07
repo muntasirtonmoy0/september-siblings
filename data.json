@@ -11,17 +11,20 @@
       "balloons": [
         {
           "color": "#3a86ff",
-          "image": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&auto=format&fit=crop",
-          "caption": "The coolest Mama! 🕶️"
+          "image": "https://res.cloudinary.com/retvp8pw/image/upload/v1788792797/WhatsApp_Image_2026-09-06_at_2.46.51_AM.jpg",
+          "caption": "The coolest mama! 🕶️"
         },
         {
           "color": "#48cae4",
-          "image": "https://images.unsplash.com/photo-1511895426328-dc8714191300?w=600&auto=format&fit=crop",
+          "image": "https://res.cloudinary.com/retvp8pw/image/upload/v1788792796/WhatsApp_Image_2026-09-06_at_9.46.15_PM.jpg",
           "caption": "Always making everyone laugh! 😂"
+        },
+        {
+          "color": "#0077b6",
+          "image": "https://res.cloudinary.com/retvp8pw/image/upload/v1788792796/WhatsApp_Image_2026-09-06_at_9.46.14_PM.jpg",
+          "caption": "Memories with Mama! 👑"
         }
       ],
-      "scratchPhoto": "https://images.unsplash.com/photo-1511895426328-dc8714191300?w=600&auto=format&fit=crop",
-      "scratchCaption": "✨ Mystery Unlocked: OLD MEMORY OF SIBLINGS ✨",
       "message": {
         "title": "Happy Birthday, Mama! (Sept 15)",
         "body": "Starting off the sibling festival with our favorite uncle! Thank you for the endless support, laughter, and wisdom you bring to the family.",
@@ -38,19 +41,22 @@
       "balloons": [
         {
           "color": "#ff006e",
-          "image": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&auto=format&fit=crop",
+          "image": "https://res.cloudinary.com/retvp8pw/image/upload/v1788792797/WhatsApp_Image_2026-09-06_at_2.52.18_AM.jpg",
           "caption": "The sweetness and joy of the house! 🌸"
         },
         {
           "color": "#ff70a6",
-          "image": "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&auto=format&fit=crop",
+          "image": "https://res.cloudinary.com/retvp8pw/image/upload/v1788792796/WhatsApp_Image_2026-09-06_at_9.46.15_PM.jpg",
           "caption": "Always caring, vibrant, and full of warmth! ✨"
+        },
+        {
+          "color": "#c77dff",
+          "image": "https://res.cloudinary.com/retvp8pw/image/upload/v1788792796/WhatsApp_Image_2026-09-06_at_9.46.14_PM.jpg",
+          "caption": "Best aunt of all time. 💖"
         }
       ],
-      "scratchPhoto": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&auto=format&fit=crop",
-      "scratchCaption": "✨ Mystery Unlocked: OLD MEMORY OF SIBLINGS ✨",
       "message": {
-        "title": "Happy Birthday, Mamoni! (Sept 17)",
+        "title": "Happy Birthday, Khalamoni! (Sept 17)",
         "body": "Midway through the September trio celebration! Your kindness, smile, and warm presence make every family gathering special.",
         "audioUrl": "https://actions.google.com/sounds/v1/water/gentle_stream.ogg"
       }
@@ -65,17 +71,20 @@
       "balloons": [
         {
           "color": "#8338ec",
-          "image": "https://images.unsplash.com/photo-1543807535-eceef0bc6599?w=600&auto=format&fit=crop",
+          "image": "https://res.cloudinary.com/retvp8pw/image/upload/v1788792790/WhatsApp_Image_2026-09-06_at_2.42.00_AM.jpg",
           "caption": "The best mother in the whole world! 💖"
         },
         {
           "color": "#b5179e",
-          "image": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&auto=format&fit=crop",
-          "caption": "Our daily strength, guide, and blessing! 🍲"
+          "image": "https://res.cloudinary.com/retvp8pw/image/upload/v1788792796/WhatsApp_Image_2026-09-06_at_9.46.15_PM.jpg",
+          "caption": "My daily strength, guide, and blessing! 🍲"
+        },
+        {
+          "color": "#e0aaff",
+          "image": "https://res.cloudinary.com/retvp8pw/image/upload/v1788792796/WhatsApp_Image_2026-09-06_at_9.46.14_PM.jpg",
+          "caption": "The pillar of pure love and endless sacrifices for us! 💐"
         }
       ],
-      "scratchPhoto": "https://images.unsplash.com/photo-1543807535-eceef0bc6599?w=600&auto=format&fit=crop",
-      "scratchCaption": "✨ Mystery Unlocked: OLD MEMORY OF SIBLINGS! ✨",
       "message": {
         "title": "Happy Birthday, Ammu! (Sept 19)",
         "body": "The grand finale of our September trio! No words can match everything you do for us every single day. We love you so much!",
