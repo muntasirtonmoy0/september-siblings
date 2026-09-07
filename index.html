@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>September Sibling Celebration! 🎉</title>
+  <title>September Sibling Fest! 🎉</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
 
-  <!-- Touch Sparkles Canvas -->
+  <!-- Sparkle Particle Canvas -->
   <canvas id="sparkles-canvas"></canvas>
 
   <!-- Stage 1: Tap to Open Gift -->
@@ -34,16 +34,17 @@
   <!-- Stage 3: Balloon Pop Wall -->
   <section id="stage-balloons" class="stage">
     <h2 class="section-title" id="balloon-header">Tap each balloon to pop! 🎈</h2>
+    <p class="progress-hint" id="balloon-progress">Pop all balloons to continue</p>
     <div class="balloon-container" id="balloon-container"></div>
-    <button id="next-to-scratch" class="big-btn hidden">Go to Mystery Card 🎁</button>
+    <button id="next-to-scratch" class="big-btn hidden">Unlock Mystery Memory ✨</button>
   </section>
 
-  <!-- Stage 4: Scratch-Off Mystery Card (NEW) -->
+  <!-- Stage 4: Dedicated Scratch-Off Card (Old Memory of Siblings) -->
   <section id="stage-scratch" class="stage">
-    <h2 class="section-title">Scratch to reveal! ✨</h2>
-    <p class="scratch-hint">Rub your finger across the card 👇</p>
+    <h2 class="section-title">A Special Sibling Memory! 🎁</h2>
+    <p class="scratch-hint">Swipe your finger to scratch & reveal 👇</p>
     <div class="scratch-wrapper">
-      <img id="scratch-under-img" src="" alt="Mystery Reveal" />
+      <img id="scratch-under-img" src="" alt="Old Memory of Siblings" />
       <canvas id="scratch-canvas" width="300" height="220"></canvas>
     </div>
     <p id="scratch-caption" class="scratch-caption"></p>
@@ -52,8 +53,8 @@
 
   <!-- Stage 5: Cake with 3 Sibling Candles -->
   <section id="stage-cake" class="stage">
-    <h2 class="section-title">Tap the candles to blow! 🕯️</h2>
-    <p class="candle-subtext">15 Sept (Mama) • 17 Sept (Khala) • 19 Sept (Ammu)</p>
+    <h2 class="section-title">Tap all 3 candles to blow! 🕯️</h2>
+    <p class="candle-subtext">15 Sept (Mama) • 17 Sept (Mamoni) • 19 Sept (Ammu)</p>
     <div class="cake-container">
       <div class="candles-row" id="candles-row">
         <div class="candle-wrapper">
@@ -74,7 +75,19 @@
     </div>
   </section>
 
-  <!-- Stage 6: Final Heartfelt Note & Voice Player -->
+  <!-- Stage 6: Memory Video Section -->
+  <section id="stage-video" class="stage">
+    <h2 class="section-title">A Special Video For You! 🎬</h2>
+    <div class="video-container">
+      <video id="memory-video" controls playsinline preload="metadata">
+        <source id="video-source" src="" type="video/mp4" />
+        Your browser does not support playing this video.
+      </video>
+    </div>
+    <button id="next-to-letter" class="big-btn">Read Our Letter 💌</button>
+  </section>
+
+  <!-- Stage 7: Final Heartfelt Note & Voice Player -->
   <section id="stage-letter" class="stage">
     <div class="letter-card">
       <h1 id="letter-title">Happy Birthday!</h1>
@@ -92,7 +105,7 @@
     </div>
   </section>
 
-  <!-- Photo Modal -->
+  <!-- Photo Modal (For Balloon Pops) -->
   <div id="photo-modal" class="modal hidden">
     <div class="modal-content">
       <img id="modal-img" src="" alt="Family memory" />
