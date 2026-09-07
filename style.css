@@ -27,6 +27,27 @@ body {
   z-index: 999;
 }
 
+.nav-back-btn {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid #ff416c;
+  color: #ff416c;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: 30px;
+  cursor: pointer;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.15s ease;
+}
+
+.nav-back-btn:active {
+  transform: scale(0.95);
+}
+
 .stage {
   display: none;
   width: 100%;
@@ -63,11 +84,11 @@ body {
   letter-spacing: 0.5px;
 }
 
-.progress-hint, .candle-subtext, .scratch-hint {
-  font-size: 1.05rem;
-  color: #555;
+.progress-hint, .candle-subtext {
+  font-size: 1rem;
+  color: #6c757d;
   font-weight: 600;
-  margin-bottom: 18px;
+  margin-bottom: 24px;
 }
 
 .big-btn {
@@ -186,24 +207,26 @@ body {
   white-space: nowrap;
 }
 
-/* Stage 3: Balloons */
+/* Stage 3: 3 Balloons */
 .balloon-container {
   display: flex;
-  gap: 22px;
+  gap: 18px;
   justify-content: center;
-  flex-wrap: wrap;
+  align-items: center;
+  flex-wrap: nowrap;
   width: 100%;
-  margin: 20px 0;
+  margin: 24px 0;
 }
 
 .balloon {
-  width: 90px;
-  height: 118px;
+  width: 86px;
+  height: 114px;
   border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
   cursor: pointer;
   position: relative;
   animation: floatBalloon 3s ease-in-out infinite alternate;
   box-shadow: inset -6px -6px 12px rgba(0, 0, 0, 0.18);
+  flex-shrink: 0;
 }
 
 .balloon::after {
@@ -222,43 +245,7 @@ body {
   100% { transform: translateY(-16px) rotate(2deg); }
 }
 
-/* Stage 4: Scratch Card */
-.scratch-wrapper {
-  position: relative;
-  width: 300px;
-  height: 220px;
-  margin: 0 auto;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-}
-
-#scratch-under-img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-#scratch-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  touch-action: none;
-  cursor: crosshair;
-}
-
-.scratch-caption {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #d63384;
-  margin-top: 16px;
-  min-height: 24px;
-}
-
-/* Stage 5: Cake & Candles */
+/* Stage 4: Cake & Candles */
 .cake-container {
   position: relative;
   display: flex;
@@ -337,7 +324,7 @@ body {
   margin-top: -2px;
 }
 
-/* Stage 6: Video */
+/* Stage 5: Video */
 .video-container {
   width: 100%;
   max-width: 380px;
@@ -354,7 +341,7 @@ video {
   display: block;
 }
 
-/* Stage 7: Final Letter */
+/* Stage 6: Final Letter */
 .letter-card {
   background: #ffffff;
   padding: 30px 24px;
@@ -394,41 +381,80 @@ audio {
   height: 48px;
 }
 
-/* Balloon Photo Modal */
+/* Scratch Modal */
 .modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(0, 0, 0, 0.82);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
-  z-index: 100;
+  padding: 16px;
+  z-index: 200;
 }
 
-.modal-content {
+.scratch-modal-content {
   background: #fff;
-  padding: 16px;
-  border-radius: 22px;
-  max-width: 380px;
+  padding: 22px 18px;
+  border-radius: 24px;
+  max-width: 340px;
   width: 100%;
   text-align: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
 }
 
-.modal-content img {
+.scratch-modal-title {
+  font-size: 1.3rem;
+  color: #d63384;
+  margin-bottom: 4px;
+}
+
+.scratch-modal-sub {
+  font-size: 0.95rem;
+  color: #6c757d;
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+
+.scratch-wrapper {
+  position: relative;
+  width: 280px;
+  height: 220px;
+  margin: 0 auto;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  background: #eee;
+}
+
+#modal-scratch-img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 240px;
+  height: 100%;
   object-fit: cover;
-  border-radius: 14px;
+  display: block;
 }
 
-#modal-caption {
-  font-size: 1.25rem;
+#modal-scratch-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 220px;
+  touch-action: none;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.scratch-caption-text {
+  font-size: 1.15rem;
   font-weight: 600;
-  margin: 16px 0 8px;
-  color: #333;
+  color: #2b2d42;
+  margin-top: 14px;
+  min-height: 28px;
 }
