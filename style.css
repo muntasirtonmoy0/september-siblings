@@ -15,6 +15,18 @@ body {
   justify-content: center;
   overflow-x: hidden;
   color: #333;
+  touch-action: pan-y;
+}
+
+/* Touch sparkle overlay */
+#sparkles-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999;
 }
 
 .stage {
@@ -212,7 +224,49 @@ body {
   100% { transform: translateY(-16px) rotate(2deg); }
 }
 
-/* Stage 4: Cake & Candles */
+/* Stage 4: Scratch Card */
+.scratch-hint {
+  font-size: 1.15rem;
+  color: #555;
+  margin-bottom: 18px;
+  font-weight: 600;
+}
+
+.scratch-wrapper {
+  position: relative;
+  width: 300px;
+  height: 220px;
+  margin: 0 auto;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+#scratch-under-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#scratch-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.scratch-caption {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #d63384;
+  margin-top: 14px;
+}
+
+/* Stage 5: Cake & Candles */
 .cake-container {
   position: relative;
   display: flex;
@@ -330,7 +384,7 @@ body {
   color: #333;
 }
 
-/* Stage 5: Final Letter */
+/* Stage 6: Final Letter */
 .letter-card {
   background: #ffffff;
   padding: 30px 24px;
