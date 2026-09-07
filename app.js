@@ -3,7 +3,7 @@ let activeMember = null;
 let poppedBalloonsCount = 0;
 let extinguishedCandlesCount = 0;
 
-// --- 1. Web Audio Chimes (No external audio files needed for chimes) ---
+// --- 1. Sound Chimes ---
 let audioCtx = null;
 function playMelodyNote(freq = 523.25, type = "sine", duration = 0.25) {
   try {
@@ -22,11 +22,11 @@ function playMelodyNote(freq = 523.25, type = "sine", duration = 0.25) {
     osc.start();
     osc.stop(audioCtx.currentTime + duration);
   } catch (e) {
-    // Audio fallback if muted or blocked
+    // Silent fallback
   }
 }
 
-// --- 2. Interactive Sparkle Particles on Finger Touch ---
+// --- 2. Floating Touch Sparkles ---
 const sparkCanvas = document.getElementById("sparkles-canvas");
 const sparkCtx = sparkCanvas.getContext("2d");
 let sparkles = [];
@@ -51,7 +51,6 @@ function addSparkle(x, y) {
     });
   }
 }
-
 window.addEventListener("pointermove", (e) => addSparkle(e.clientX, e.clientY));
 window.addEventListener("pointerdown", (e) => addSparkle(e.clientX, e.clientY));
 
@@ -77,7 +76,56 @@ function renderSparkles() {
 }
 renderSparkles();
 
-// --- 3. Load Data from data.json ---
+// --- 3. Stage Navigation & Dedicated URL Hash Routing ---
+function goToStage(stageId) {
+  document.querySelectorAll(".stage").forEach((s) => s.classList.remove("active"));
+  const target = document.getElementById(stageId);
+  if (target) target.classList.add("active");
+
+  const backBtn = document.getElementById("global-back-btn");
+  if (stageId !== "stage-gift" && stageId !== "stage-select") {
+    backBtn.classList.remove("hidden");
+  } else {
+    backBtn.classList.add("hidden");
+  }
+
+  if (stageId !== "stage-video") {
+    const vid = document.getElementById("memory-video");
+    if (vid) vid.pause();
+  }
+}
+
+function returnToHub() {
+  history.pushState(null, "", "#select");
+  goToStage("stage-select");
+}
+
+document.getElementById("global-back-btn").addEventListener("click", returnToHub);
+document.getElementById("replay-btn").addEventListener("click", returnToHub);
+
+window.addEventListener("popstate", () => {
+  handleRoute();
+});
+
+function handleRoute() {
+  if (!appData) return;
+  const hash = window.location.hash.replace("#", "");
+
+  if (!hash || hash === "gift") {
+    goToStage("stage-gift");
+  } else if (hash === "select") {
+    goToStage("stage-select");
+  } else {
+    const found = appData.members.find((m) => m.id.toLowerCase() === hash.toLowerCase());
+    if (found) {
+      loadMemberSurprise(found, false);
+    } else {
+      goToStage("stage-select");
+    }
+  }
+}
+
+// --- 4. Load Data ---
 fetch("./data.json")
   .then((res) => res.json())
   .then((data) => {
@@ -86,24 +134,21 @@ fetch("./data.json")
       document.getElementById("trio-title").innerText = data.trioTitle;
     }
     renderTrioCards(data.members);
+    handleRoute();
   })
   .catch((err) => console.error("Error loading birthday data:", err));
 
-function goToStage(stageId) {
-  document.querySelectorAll(".stage").forEach((s) => s.classList.remove("active"));
-  const target = document.getElementById(stageId);
-  if (target) target.classList.add("active");
-}
-
-// --- Stage 1: Tap to Open Gift ---
+// Stage 1: Gift Click
 document.getElementById("gift-box").addEventListener("click", () => {
   if (navigator.vibrate) navigator.vibrate(60);
-  playMelodyNote(523.25, "triangle", 0.35); // C5
+  playMelodyNote(523.25, "triangle", 0.35);
   confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } });
+  
+  history.pushState(null, "", "#select");
   setTimeout(() => goToStage("stage-select"), 600);
 });
 
-// --- Stage 2: Sibling Hub Cards ---
+// Stage 2: Sibling Hub Cards
 function renderTrioCards(members) {
   const container = document.getElementById("trio-cards");
   container.innerHTML = "";
@@ -122,22 +167,25 @@ function renderTrioCards(members) {
 
     card.addEventListener("click", () => {
       if (navigator.vibrate) navigator.vibrate(40);
-      playMelodyNote(587.33, "triangle", 0.3); // D5
-      loadMemberSurprise(member);
+      playMelodyNote(587.33, "triangle", 0.3);
+      history.pushState(null, "", `#${member.id}`);
+      loadMemberSurprise(member, false);
     });
 
     container.appendChild(card);
   });
 }
 
-function loadMemberSurprise(member) {
+function loadMemberSurprise(member, updateHash = true) {
   activeMember = member;
   poppedBalloonsCount = 0;
   extinguishedCandlesCount = 0;
 
-  // Reset candle flames
+  if (updateHash) {
+    history.pushState(null, "", `#${member.id}`);
+  }
+
   document.querySelectorAll(".flame").forEach((f) => f.classList.remove("out"));
-  
   document.getElementById("balloon-header").innerText = `Tap to pop ${member.relation}'s balloons! 🎈`;
   document.getElementById("balloon-progress").innerText = `Pop all 3 balloons (0/3)`;
 
@@ -147,15 +195,15 @@ function loadMemberSurprise(member) {
   goToStage("stage-balloons");
 }
 
-// --- Stage 3: Pop Balloons with Scratch-off Modal ---
+// Stage 3: Exactly 3 Balloons with Scratch Modal
 function initBalloons(balloons) {
   const container = document.getElementById("balloon-container");
   container.innerHTML = "";
   document.getElementById("next-to-cake").classList.add("hidden");
 
-  const notes = [523.25, 659.25, 783.99]; // Triad: C5, E5, G5
+  const notes = [523.25, 659.25, 783.99];
 
-  balloons.forEach((b, idx) => {
+  balloons.slice(0, 3).forEach((b, idx) => {
     const el = document.createElement("div");
     el.className = "balloon";
     el.style.backgroundColor = b.color;
@@ -183,7 +231,7 @@ function initBalloons(balloons) {
   });
 }
 
-// --- Scratch-Off Card Modal Logic ---
+// Fixed Scratch-Off Canvas System
 function openScratchModal(imgSrc, captionText) {
   const modal = document.getElementById("scratch-modal");
   const canvas = document.getElementById("modal-scratch-canvas");
@@ -196,17 +244,19 @@ function openScratchModal(imgSrc, captionText) {
   caption.innerText = "";
   closeBtn.classList.add("hidden");
 
-  // Paint the golden/silver scratch-off layer
+  // Show modal first so dimensions are positive
+  modal.classList.remove("hidden");
+
+  // Paint the silver scratch coating
   ctx.globalCompositeOperation = "source-over";
   const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-  grad.addColorStop(0, "#d4af37");
-  grad.addColorStop(0.5, "#f7e7a9");
-  grad.addColorStop(1, "#c59b27");
+  grad.addColorStop(0, "#b0b0b0");
+  grad.addColorStop(0.5, "#e6e6e6");
+  grad.addColorStop(1, "#999999");
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Card instructions
-  ctx.fillStyle = "#4a3c00";
+  ctx.fillStyle = "#333333";
   ctx.font = "bold 16px sans-serif";
   ctx.textAlign = "center";
   ctx.fillText("🎁 Scratch Here!", canvas.width / 2, canvas.height / 2 + 6);
@@ -217,12 +267,14 @@ function openScratchModal(imgSrc, captionText) {
   function scratch(e) {
     if (!isDrawing || cleared) return;
     const rect = canvas.getBoundingClientRect();
-    const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
-    const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
+    const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+    const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
 
     ctx.globalCompositeOperation = "destination-out";
     ctx.beginPath();
-    ctx.arc(x, y, 22, 0, Math.PI * 2);
+    ctx.arc(x, y, 24, 0, Math.PI * 2);
     ctx.fill();
 
     checkPercentage();
@@ -236,8 +288,8 @@ function openScratchModal(imgSrc, captionText) {
       if (imgData.data[i] === 0) transparentPixels++;
     }
 
-    // Auto-reveal when 35% is cleared
-    if (transparentPixels > (imgData.data.length / 16) * 0.35) {
+    // Auto-reveal when 30% cleared
+    if (transparentPixels > (imgData.data.length / 16) * 0.3) {
       cleared = true;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       caption.innerText = captionText;
@@ -247,14 +299,13 @@ function openScratchModal(imgSrc, captionText) {
     }
   }
 
+  // Mouse & Touch bindings
   canvas.onmousedown = (e) => { isDrawing = true; scratch(e); };
   canvas.ontouchstart = (e) => { isDrawing = true; scratch(e); };
   window.onmouseup = () => (isDrawing = false);
   window.ontouchend = () => (isDrawing = false);
   canvas.onmousemove = scratch;
   canvas.ontouchmove = scratch;
-
-  modal.classList.remove("hidden");
 }
 
 document.getElementById("modal-scratch-close").addEventListener("click", () => {
@@ -265,7 +316,7 @@ document.getElementById("next-to-cake").addEventListener("click", () => {
   goToStage("stage-cake");
 });
 
-// --- Stage 4: Candle Blowing ---
+// Stage 4: Candle blowing
 document.querySelectorAll(".flame").forEach((flame, idx) => {
   flame.addEventListener("click", () => {
     if (!flame.classList.contains("out")) {
@@ -274,7 +325,6 @@ document.querySelectorAll(".flame").forEach((flame, idx) => {
       flame.classList.add("out");
       extinguishedCandlesCount++;
 
-      // When all 3 candles are extinguished
       if (extinguishedCandlesCount >= 3) {
         confetti({ particleCount: 160, spread: 90, origin: { y: 0.5 } });
         setTimeout(() => goToStage("stage-video"), 900);
@@ -283,7 +333,7 @@ document.querySelectorAll(".flame").forEach((flame, idx) => {
   });
 });
 
-// --- Stage 5: Memory Video ---
+// Stage 5: Video
 function setupVideo(videoUrl) {
   const vid = document.getElementById("memory-video");
   document.getElementById("video-source").src = videoUrl;
@@ -296,15 +346,10 @@ document.getElementById("next-to-letter").addEventListener("click", () => {
   goToStage("stage-letter");
 });
 
-// --- Stage 6: Final Letter & Voice Player ---
+// Stage 6: Final Letter
 function setupLetter(msg) {
   document.getElementById("letter-title").innerText = msg.title;
   document.getElementById("letter-body").innerText = msg.body;
   document.getElementById("audio-source").src = msg.audioUrl;
   document.getElementById("audio-player").load();
 }
-
-// Return to Sibling Select Screen
-document.getElementById("replay-btn").addEventListener("click", () => {
-  goToStage("stage-select");
-});
