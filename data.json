@@ -7,6 +7,7 @@
       "relation": "Mama",
       "date": "15 Sept",
       "color": "#3a86ff",
+      "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
       "balloons": [
         {
           "color": "#3a86ff",
@@ -33,6 +34,7 @@
       "relation": "Mamoni",
       "date": "17 Sept",
       "color": "#ff006e",
+      "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
       "balloons": [
         {
           "color": "#ff006e",
@@ -59,6 +61,7 @@
       "relation": "Ammu",
       "date": "19 Sept",
       "color": "#8338ec",
+      "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
       "balloons": [
         {
           "color": "#8338ec",
