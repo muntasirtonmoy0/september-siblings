@@ -15,10 +15,8 @@ body {
   justify-content: center;
   overflow-x: hidden;
   color: #333;
-  touch-action: pan-y;
 }
 
-/* Touch sparkle overlay */
 #sparkles-canvas {
   position: fixed;
   top: 0;
@@ -47,13 +45,13 @@ body {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(14px); }
+  from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 .section-title {
   font-size: 1.65rem;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   color: #d63384;
 }
 
@@ -65,11 +63,11 @@ body {
   letter-spacing: 0.5px;
 }
 
-.candle-subtext {
-  font-size: 0.95rem;
-  color: #6c757d;
+.progress-hint, .candle-subtext, .scratch-hint {
+  font-size: 1.05rem;
+  color: #555;
   font-weight: 600;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .big-btn {
@@ -191,7 +189,7 @@ body {
 /* Stage 3: Balloons */
 .balloon-container {
   display: flex;
-  gap: 20px;
+  gap: 22px;
   justify-content: center;
   flex-wrap: wrap;
   width: 100%;
@@ -199,7 +197,7 @@ body {
 }
 
 .balloon {
-  width: 92px;
+  width: 90px;
   height: 118px;
   border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
   cursor: pointer;
@@ -225,13 +223,6 @@ body {
 }
 
 /* Stage 4: Scratch Card */
-.scratch-hint {
-  font-size: 1.15rem;
-  color: #555;
-  margin-bottom: 18px;
-  font-weight: 600;
-}
-
 .scratch-wrapper {
   position: relative;
   width: 300px;
@@ -260,10 +251,11 @@ body {
 }
 
 .scratch-caption {
-  font-size: 1.15rem;
-  font-weight: 600;
+  font-size: 1.2rem;
+  font-weight: 700;
   color: #d63384;
-  margin-top: 14px;
+  margin-top: 16px;
+  min-height: 24px;
 }
 
 /* Stage 5: Cake & Candles */
@@ -345,46 +337,24 @@ body {
   margin-top: -2px;
 }
 
-/* Modal for Balloon Photos */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.75);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  z-index: 100;
-}
-
-.modal-content {
-  background: #fff;
-  padding: 16px;
-  border-radius: 22px;
+/* Stage 6: Video */
+.video-container {
+  width: 100%;
   max-width: 380px;
+  margin: 15px 0;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  background: #000;
+}
+
+video {
   width: 100%;
-  text-align: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  max-height: 260px;
+  display: block;
 }
 
-.modal-content img {
-  width: 100%;
-  height: 240px;
-  object-fit: cover;
-  border-radius: 14px;
-}
-
-#modal-caption {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin: 16px 0 8px;
-  color: #333;
-}
-
-/* Stage 6: Final Letter */
+/* Stage 7: Final Letter */
 .letter-card {
   background: #ffffff;
   padding: 30px 24px;
@@ -422,4 +392,43 @@ body {
 audio {
   width: 100%;
   height: 48px;
+}
+
+/* Balloon Photo Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 100;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 16px;
+  border-radius: 22px;
+  max-width: 380px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  border-radius: 14px;
+}
+
+#modal-caption {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 16px 0 8px;
+  color: #333;
 }
