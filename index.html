@@ -9,6 +9,9 @@
 </head>
 <body>
 
+  <!-- Touch Sparkles Canvas -->
+  <canvas id="sparkles-canvas"></canvas>
+
   <!-- Stage 1: Tap to Open Gift -->
   <section id="stage-gift" class="stage active">
     <div class="center-content">
@@ -32,10 +35,22 @@
   <section id="stage-balloons" class="stage">
     <h2 class="section-title" id="balloon-header">Tap each balloon to pop! 🎈</h2>
     <div class="balloon-container" id="balloon-container"></div>
-    <button id="next-to-cake" class="big-btn hidden">Go to Cake 🎂</button>
+    <button id="next-to-scratch" class="big-btn hidden">Go to Mystery Card 🎁</button>
   </section>
 
-  <!-- Stage 4: Cake with 3 Sibling Candles -->
+  <!-- Stage 4: Scratch-Off Mystery Card (NEW) -->
+  <section id="stage-scratch" class="stage">
+    <h2 class="section-title">Scratch to reveal! ✨</h2>
+    <p class="scratch-hint">Rub your finger across the card 👇</p>
+    <div class="scratch-wrapper">
+      <img id="scratch-under-img" src="" alt="Mystery Reveal" />
+      <canvas id="scratch-canvas" width="300" height="220"></canvas>
+    </div>
+    <p id="scratch-caption" class="scratch-caption"></p>
+    <button id="next-to-cake" class="big-btn hidden">Proceed to Birthday Cake 🎂</button>
+  </section>
+
+  <!-- Stage 5: Cake with 3 Sibling Candles -->
   <section id="stage-cake" class="stage">
     <h2 class="section-title">Tap the candles to blow! 🕯️</h2>
     <p class="candle-subtext">15 Sept (Mama) • 17 Sept (Khala) • 19 Sept (Ammu)</p>
@@ -59,14 +74,14 @@
     </div>
   </section>
 
-  <!-- Stage 5: Final Heartfelt Note & Voice Player -->
+  <!-- Stage 6: Final Heartfelt Note & Voice Player -->
   <section id="stage-letter" class="stage">
     <div class="letter-card">
       <h1 id="letter-title">Happy Birthday!</h1>
       <p id="letter-body"></p>
       
       <div class="audio-box">
-        <p class="audio-hint">🔊 Tap below to hear our message:</p>
+        <p class="audio-hint">🔊 Tap below to hear our voice note:</p>
         <audio id="audio-player" controls preload="none">
           <source id="audio-source" src="" type="audio/mpeg" />
           Your browser does not support audio playback.
