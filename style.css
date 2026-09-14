@@ -1,6 +1,7 @@
 * {
   box-sizing: border-box;
   user-select: none;
+  -webkit-user-select: none;
   -webkit-tap-highlight-color: transparent;
   margin: 0;
   padding: 0;
@@ -17,7 +18,7 @@ body {
   color: #333;
 }
 
-/* Passive sparkles overlay */
+/* Passive sparkles overlay - NEVER blocks clicks */
 #sparkles-canvas {
   position: fixed;
   top: 0;
@@ -25,7 +26,7 @@ body {
   width: 100vw;
   height: 100vh;
   pointer-events: none !important;
-  z-index: 10;
+  z-index: 1;
 }
 
 /* Dedicated Back Button */
@@ -61,6 +62,8 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
+  position: relative;
+  z-index: 10;
 }
 
 .stage.active {
@@ -108,14 +111,20 @@ body {
   transition: transform 0.15s ease;
   touch-action: manipulation;
   -webkit-appearance: none;
+  position: relative;
+  z-index: 20;
 }
 
 .big-btn:active {
   transform: scale(0.95);
 }
 
+/* CRITICAL FIX: The hidden class completely removes pointer-events and visibility */
 .hidden {
   display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
 }
 
 /* Stage 1: Gift Box */
@@ -129,6 +138,7 @@ body {
   animation: bounce 1.8s infinite;
   box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
   margin: 0 auto;
+  touch-action: manipulation;
 }
 
 .gift-lid {
@@ -160,7 +170,7 @@ body {
   50% { transform: translateY(-18px); }
 }
 
-/* Stage 2: Sibling Cards */
+/* Stage 2: Sibling Hub Cards */
 .cards-wrapper {
   display: flex;
   flex-direction: column;
@@ -213,7 +223,7 @@ body {
   white-space: nowrap;
 }
 
-/* Stage 3: 3 Balloons */
+/* Stage 3: Balloons Container & Balloon Physics */
 .balloon-container {
   display: flex;
   gap: 16px;
@@ -222,6 +232,8 @@ body {
   flex-wrap: wrap;
   width: 100%;
   margin: 24px 0;
+  position: relative;
+  z-index: 15;
 }
 
 .balloon {
@@ -234,6 +246,7 @@ body {
   box-shadow: inset -6px -6px 12px rgba(0, 0, 0, 0.18);
   flex-shrink: 0;
   touch-action: manipulation;
+  pointer-events: auto !important;
 }
 
 .balloon::after {
@@ -389,7 +402,7 @@ audio {
   height: 48px;
 }
 
-/* Scratch Modal & Mobile Touch Fixes */
+/* Scratch Modal Styling & Isolation */
 .modal {
   position: fixed;
   top: 0;
@@ -402,6 +415,7 @@ audio {
   justify-content: center;
   padding: 16px;
   z-index: 500;
+  pointer-events: auto;
 }
 
 .scratch-modal-content {
@@ -414,6 +428,7 @@ audio {
   box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
   position: relative;
   z-index: 501;
+  pointer-events: auto;
 }
 
 .scratch-modal-title {
@@ -469,10 +484,9 @@ audio {
   min-height: 28px;
 }
 
-/* Bulletproof Mobile Continue Button */
 #modal-scratch-close {
   position: relative !important;
-  z-index: 10001 !important;
+  z-index: 9999 !important;
   pointer-events: auto !important;
   cursor: pointer !important;
   display: inline-block;
