@@ -26,7 +26,7 @@ function playMelodyNote(freq = 523.25, type = "sine", duration = 0.25) {
   }
 }
 
-// --- 2. Floating Touch Sparkles ---
+// --- 2. Floating Touch Sparkles (Non-blocking) ---
 const sparkCanvas = document.getElementById("sparkles-canvas");
 const sparkCtx = sparkCanvas.getContext("2d");
 let sparkles = [];
@@ -39,7 +39,7 @@ window.addEventListener("resize", resizeSparkleCanvas);
 resizeSparkleCanvas();
 
 function addSparkle(x, y) {
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 2; i++) {
     sparkles.push({
       x,
       y,
@@ -51,8 +51,8 @@ function addSparkle(x, y) {
     });
   }
 }
-window.addEventListener("pointermove", (e) => addSparkle(e.clientX, e.clientY));
-window.addEventListener("pointerdown", (e) => addSparkle(e.clientX, e.clientY));
+
+window.addEventListener("pointermove", (e) => addSparkle(e.clientX, e.clientY), { passive: true });
 
 function renderSparkles() {
   sparkCtx.clearRect(0, 0, sparkCanvas.width, sparkCanvas.height);
@@ -143,7 +143,7 @@ document.getElementById("gift-box").addEventListener("click", () => {
   if (navigator.vibrate) navigator.vibrate(60);
   playMelodyNote(523.25, "triangle", 0.35);
   confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } });
-  
+
   history.pushState(null, "", "#select");
   setTimeout(() => goToStage("stage-select"), 600);
 });
@@ -231,7 +231,7 @@ function initBalloons(balloons) {
   });
 }
 
-// Fixed Scratch-Off Canvas System
+// Scratch-Off Canvas System (Guaranteed Mobile Tap Fix)
 function openScratchModal(imgSrc, captionText) {
   const modal = document.getElementById("scratch-modal");
   const canvas = document.getElementById("modal-scratch-canvas");
@@ -244,10 +244,12 @@ function openScratchModal(imgSrc, captionText) {
   caption.innerText = "";
   closeBtn.classList.add("hidden");
 
-  // Show modal first so dimensions are positive
+  // Re-enable canvas visibility & pointer events
+  canvas.style.display = "block";
+  canvas.style.pointerEvents = "auto";
   modal.classList.remove("hidden");
 
-  // Paint the silver scratch coating
+  // Paint the silver scratch coat
   ctx.globalCompositeOperation = "source-over";
   const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
   grad.addColorStop(0, "#b0b0b0");
@@ -266,6 +268,8 @@ function openScratchModal(imgSrc, captionText) {
 
   function scratch(e) {
     if (!isDrawing || cleared) return;
+    if (e.cancelable) e.preventDefault();
+
     const rect = canvas.getBoundingClientRect();
     const clientX = e.clientX || (e.touches && e.touches[0].clientX);
     const clientY = e.clientY || (e.touches && e.touches[0].clientY);
@@ -274,7 +278,7 @@ function openScratchModal(imgSrc, captionText) {
 
     ctx.globalCompositeOperation = "destination-out";
     ctx.beginPath();
-    ctx.arc(x, y, 24, 0, Math.PI * 2);
+    ctx.arc(x, y, 26, 0, Math.PI * 2);
     ctx.fill();
 
     checkPercentage();
@@ -288,29 +292,47 @@ function openScratchModal(imgSrc, captionText) {
       if (imgData.data[i] === 0) transparentPixels++;
     }
 
-    // Auto-reveal when 30% cleared
-    if (transparentPixels > (imgData.data.length / 16) * 0.3) {
+    // Auto-reveal once 28% is scratched
+    if (transparentPixels > (imgData.data.length / 16) * 0.28) {
       cleared = true;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      isDrawing = false;
+      
+      // Detach listeners and completely hide canvas so it CANNOT block taps
+      canvas.onmousedown = null;
+      canvas.onmousemove = null;
+      canvas.style.display = "none";
+
       caption.innerText = captionText;
       closeBtn.classList.remove("hidden");
+
       playMelodyNote(880, "triangle", 0.4);
       confetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
     }
   }
 
-  // Mouse & Touch bindings
   canvas.onmousedown = (e) => { isDrawing = true; scratch(e); };
   canvas.ontouchstart = (e) => { isDrawing = true; scratch(e); };
+  
   window.onmouseup = () => (isDrawing = false);
   window.ontouchend = () => (isDrawing = false);
+
   canvas.onmousemove = scratch;
   canvas.ontouchmove = scratch;
 }
 
-document.getElementById("modal-scratch-close").addEventListener("click", () => {
+// Multi-handler close function ensuring instant mobile response
+const closeBtn = document.getElementById("modal-scratch-close");
+function handleCloseModal(e) {
+  if (e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
   document.getElementById("scratch-modal").classList.add("hidden");
-});
+  if (navigator.vibrate) navigator.vibrate(30);
+}
+
+closeBtn.onclick = handleCloseModal;
+closeBtn.ontouchend = handleCloseModal;
 
 document.getElementById("next-to-cake").addEventListener("click", () => {
   goToStage("stage-cake");
