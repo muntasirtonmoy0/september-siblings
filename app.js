@@ -3,7 +3,7 @@ let activeMember = null;
 let poppedBalloonsCount = 0;
 let extinguishedCandlesCount = 0;
 
-// --- 1. Sound Chimes ---
+// --- 1. Sound Chimes (Web Audio API) ---
 let audioCtx = null;
 function playMelodyNote(freq = 523.25, type = "sine", duration = 0.25) {
   try {
@@ -22,7 +22,7 @@ function playMelodyNote(freq = 523.25, type = "sine", duration = 0.25) {
     osc.start();
     osc.stop(audioCtx.currentTime + duration);
   } catch (e) {
-    // Silent fallback
+    // Fallback
   }
 }
 
@@ -216,7 +216,7 @@ function initBalloons(balloons) {
       el.style.transition = "transform 0.15s ease-out";
 
       setTimeout(() => {
-        el.style.visibility = "hidden";
+        el.style.display = "none"; // Hide popped balloon completely
         openScratchModal(b.image, b.caption);
         poppedBalloonsCount++;
         document.getElementById("balloon-progress").innerText = `Pop all 3 balloons (${poppedBalloonsCount}/3)`;
@@ -231,7 +231,9 @@ function initBalloons(balloons) {
   });
 }
 
-// Scratch-Off Canvas System (Guaranteed Mobile Tap Fix)
+// Scratch-Off Modal Logic with Complete Touch Cleanup
+let activeScratchListeners = null;
+
 function openScratchModal(imgSrc, captionText) {
   const modal = document.getElementById("scratch-modal");
   const canvas = document.getElementById("modal-scratch-canvas");
@@ -244,12 +246,15 @@ function openScratchModal(imgSrc, captionText) {
   caption.innerText = "";
   closeBtn.classList.add("hidden");
 
-  // Re-enable canvas visibility & pointer events
+  // Show modal and enable interaction
+  modal.classList.remove("hidden");
+  modal.style.pointerEvents = "auto";
+  modal.style.display = "flex";
+
   canvas.style.display = "block";
   canvas.style.pointerEvents = "auto";
-  modal.classList.remove("hidden");
 
-  // Paint the silver scratch coat
+  // Repaint silver coat
   ctx.globalCompositeOperation = "source-over";
   const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
   grad.addColorStop(0, "#b0b0b0");
@@ -292,15 +297,14 @@ function openScratchModal(imgSrc, captionText) {
       if (imgData.data[i] === 0) transparentPixels++;
     }
 
-    // Auto-reveal once 28% is scratched
     if (transparentPixels > (imgData.data.length / 16) * 0.28) {
       cleared = true;
       isDrawing = false;
-      
-      // Detach listeners and completely hide canvas so it CANNOT block taps
-      canvas.onmousedown = null;
-      canvas.onmousemove = null;
+
+      // Clean up scratch canvas
+      removeCanvasHandlers();
       canvas.style.display = "none";
+      canvas.style.pointerEvents = "none";
 
       caption.innerText = captionText;
       closeBtn.classList.remove("hidden");
@@ -310,29 +314,56 @@ function openScratchModal(imgSrc, captionText) {
     }
   }
 
-  canvas.onmousedown = (e) => { isDrawing = true; scratch(e); };
-  canvas.ontouchstart = (e) => { isDrawing = true; scratch(e); };
-  
-  window.onmouseup = () => (isDrawing = false);
-  window.ontouchend = () => (isDrawing = false);
+  function onDown(e) {
+    isDrawing = true;
+    scratch(e);
+  }
 
-  canvas.onmousemove = scratch;
-  canvas.ontouchmove = scratch;
+  function onUp() {
+    isDrawing = false;
+  }
+
+  function removeCanvasHandlers() {
+    canvas.removeEventListener("mousedown", onDown);
+    canvas.removeEventListener("touchstart", onDown);
+    window.removeEventListener("mouseup", onUp);
+    window.removeEventListener("touchend", onUp);
+    canvas.removeEventListener("mousemove", scratch);
+    canvas.removeEventListener("touchmove", scratch);
+  }
+
+  activeScratchListeners = removeCanvasHandlers;
+
+  canvas.addEventListener("mousedown", onDown);
+  canvas.addEventListener("touchstart", onDown, { passive: false });
+  window.addEventListener("mouseup", onUp);
+  window.addEventListener("touchend", onUp);
+  canvas.addEventListener("mousemove", scratch);
+  canvas.addEventListener("touchmove", scratch, { passive: false });
 }
 
-// Multi-handler close function ensuring instant mobile response
-const closeBtn = document.getElementById("modal-scratch-close");
-function handleCloseModal(e) {
-  if (e) {
-    e.preventDefault();
-    e.stopPropagation();
+// Close Scratch Modal Function - completely removes overlay & frees screen
+function closeScratchModal() {
+  const modal = document.getElementById("scratch-modal");
+  const canvas = document.getElementById("modal-scratch-canvas");
+
+  if (activeScratchListeners) {
+    activeScratchListeners();
+    activeScratchListeners = null;
   }
-  document.getElementById("scratch-modal").classList.add("hidden");
+
+  canvas.style.display = "none";
+  canvas.style.pointerEvents = "none";
+
+  modal.classList.add("hidden");
+  modal.style.display = "none";
+  modal.style.pointerEvents = "none"; // Guarantees all balloons behind can receive taps
+
   if (navigator.vibrate) navigator.vibrate(30);
 }
 
-closeBtn.onclick = handleCloseModal;
-closeBtn.ontouchend = handleCloseModal;
+const closeBtn = document.getElementById("modal-scratch-close");
+closeBtn.addEventListener("click", closeScratchModal);
 
 document.getElementById("next-to-cake").addEventListener("click", () => {
   goToStage("stage-cake");
